@@ -1,0 +1,2845 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>SAAZ 2025 — Cultural Festival, IIT Bhilai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: rgb(143, 100, 58);
+      --secondary: #F5B800;
+      --ink: #FFF8E7;
+      --muted: rgba(255, 248, 231, 0.65);
+      --dim: rgba(255, 248, 231, 0.35);
+      --accent: var(--primary);
+      --gold: var(--secondary);
+      --bg: #000214;
+      --bg2: #08091f;
+      --border: rgb(143, 100, 58);
+      --border-h: rgba(245, 184, 0, 0.45);
+    }
+
+    html[data-theme="light"] {
+      --primary: #1100ff;
+      --secondary: #0322d2;
+      --ink: #0e0000;
+      --muted: #001dfc;
+      --dim: rgba(10, 10, 42, 0.5);
+      --accent: var(--primary);
+      --gold: var(--secondary);
+      --bg: #EBD288;
+      --bg2: #070022;
+      --border: rgba(39, 26, 139, 0.15);
+      --border-h: rgba(32, 26, 139, 0.35);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      cursor: none;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    #cursor {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+    }
+
+    #cursor-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      position: absolute;
+      transform: translate(-50%, -50%);
+      transition: width .2s, height .2s, background .2s;
+    }
+
+    #cursor-ring {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(200, 157, 255, 0.5);
+      position: absolute;
+      transform: translate(-50%, -50%);
+      transition: width .35s cubic-bezier(.25, .46, .45, .94), height .35s cubic-bezier(.25, .46, .45, .94), border-color .2s, opacity .2s;
+    }
+
+    body.hovering #cursor-dot {
+      width: 14px;
+      height: 14px;
+      background: var(--gold);
+    }
+
+    body.hovering #cursor-ring {
+      width: 56px;
+      height: 56px;
+      border-color: var(--gold);
+      opacity: .6;
+    }
+
+    /* ── CLICK RIPPLE ── */
+    .ripple {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      border-radius: 50%;
+      border: 1px solid rgba(200, 157, 255, 0.6);
+      transform: translate(-50%, -50%) scale(0);
+      animation: rippleOut .6s ease-out forwards;
+    }
+
+    @keyframes rippleOut {
+      to {
+        transform: translate(-50%, -50%) scale(3.5);
+        opacity: 0;
+      }
+    }
+
+    /* ── THREE.JS CANVAS ── */
+    #three-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 3rem;
+      background: rgba(7, 0, 15, 0.88);
+      backdrop-filter: blur(18px) saturate(1.4);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      letter-spacing: .22em;
+      color: var(--accent);
+      cursor: none;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: .77rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-cta {
+      background: transparent;
+      border: .5px solid var(--border-h);
+      color: var(--accent);
+      padding: .42rem 1.3rem;
+      border-radius: 2rem;
+      font-size: .76rem;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: all .22s;
+    }
+
+    .nav-cta:hover {
+      background: rgba(37, 1, 240, 0.1);
+      border-color: var(--accent);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 2rem 5rem;
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(200, 157, 255, 0.25), transparent);
+    }
+
+    .hero::before {
+      top: 0;
+      height: 80px;
+    }
+
+    .hero::after {
+      bottom: 0;
+      height: 80px;
+    }
+
+    .hero-eyebrow {
+      font-size: .7rem;
+      letter-spacing: .38em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .hero-eyebrow::before,
+    .hero-eyebrow::after {
+      content: '';
+      display: block;
+      height: .5px;
+      width: 40px;
+      background: rgba(232, 200, 122, 0.4);
+    }
+
+    /* SAAZ logo hero */
+    .hero-title {
+      position: relative;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #hero-logo-img {
+      width: clamp(280px, 55vw, 680px);
+      height: auto;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 40px rgba(245, 184, 0, 0.35)) drop-shadow(0 0 80px rgba(9, 1, 53, 0.25));
+      animation: logoFloat 4s ease-in-out infinite;
+      cursor: none;
+      transition: filter .3s, transform .3s;
+    }
+
+    #hero-logo-img:hover {
+      filter: drop-shadow(0 0 60px rgba(245, 184, 0, 0.6)) drop-shadow(0 0 100px rgba(245, 184, 0, 0.3));
+      transform: scale(1.04) translateY(-6px) !important;
+    }
+
+    html[data-theme="light"] #hero-logo-img {
+      mix-blend-mode: normal;
+      filter: drop-shadow(0 0 30px rgba(15, 0, 99, 0.8)) drop-shadow(0 0 100px rgba(255, 221, 0, 0.941));
+    }
+
+    html[data-theme="light"] #hero-logo-img:hover {
+      filter: drop-shadow(0 0 40px rgba(9, 0, 50, 0.8)) drop-shadow(0 0 120px rgba(209, 164, 5, 0.799));
+      transform: scale(1.04) translateY(-6px) !important;
+    }
+
+    @keyframes logoFloat {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    .hero-subtitle {
+      margin-top: 1.4rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-weight: 300;
+      color: var(--accent);
+      letter-spacing: .04em;
+    }
+
+    .hero-tagline {
+      margin-top: 1.4rem;
+      font-size: .82rem;
+      letter-spacing: .1em;
+      color: var(--muted);
+      max-width: 380px;
+      line-height: 1.8;
+      text-transform: uppercase;
+    }
+
+    .hero-divider {
+      margin: 2.5rem auto;
+      width: 60px;
+      height: .5px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* AUDIO VISUALIZER BARS */
+    #viz-wrap {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      padding: 0 2rem;
+      pointer-events: none;
+      opacity: .5;
+    }
+
+    .vbar {
+      width: 3px;
+      border-radius: 2px 2px 0 0;
+      background: linear-gradient(to top, rgba(200, 157, 255, 0.8), rgba(232, 200, 122, 0.3));
+      transform-origin: bottom;
+      animation: none;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .6rem;
+      color: var(--dim);
+      font-size: .66rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      cursor: none;
+      animation: fadeFloat 3s ease-in-out infinite;
+    }
+
+    .scroll-line {
+      width: .5px;
+      height: 38px;
+      background: linear-gradient(to bottom, rgba(200, 157, 255, 0.45), transparent);
+      animation: grow 2s ease-in-out infinite;
+    }
+
+    @keyframes grow {
+
+      0%,
+      100% {
+        height: 20px;
+        opacity: .3
+      }
+
+      50% {
+        height: 38px;
+        opacity: .9
+      }
+    }
+
+    @keyframes fadeFloat {
+
+      0%,
+      100% {
+        opacity: .4;
+        transform: translateX(-50%) translateY(0)
+      }
+
+      50% {
+        opacity: .9;
+        transform: translateX(-50%) translateY(-4px)
+      }
+    }
+
+    /* ── STATS ── */
+    .stats {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      border-top: .5px solid var(--border);
+      border-bottom: .5px solid var(--border);
+      background: rgba(13, 0, 24, 0.7);
+    }
+
+    .stat {
+      flex: 1;
+      text-align: center;
+      padding: 2.2rem 1rem;
+      border-right: .5px solid var(--border);
+      cursor: none;
+      transition: background .3s;
+    }
+
+    .stat:last-child {
+      border-right: none;
+    }
+
+    .stat:hover {
+      background: rgba(200, 157, 255, 0.04);
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      font-weight: 300;
+      color: var(--gold);
+      display: block;
+      line-height: 1;
+      transition: transform .3s, color .3s;
+    }
+
+    .stat:hover .stat-num {
+      transform: scale(1.12);
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: .66rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-top: .45rem;
+      display: block;
+    }
+
+    /* ── BTNs ── */
+    .btn-primary {
+      background: rgba(47, 1, 255, 0.1);
+      border: .5px solid rgba(200, 157, 255, 0.55);
+      color: var(--accent);
+      padding: .78rem 2.2rem;
+      border-radius: 2rem;
+      font-size: .8rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: all .25s;
+    }
+
+    .btn-primary:hover {
+      background: rgba(200, 157, 255, 0.22);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: .5px solid rgba(243, 238, 255, 0.18);
+      color: var(--muted);
+      padding: .78rem 2.2rem;
+      border-radius: 2rem;
+      font-size: .8rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: all .25s;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(243, 238, 255, 0.45);
+      color: var(--ink);
+      transform: translateY(-2px);
+    }
+
+    /* ── SECTION ── */
+    .section-wrap {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 3rem;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: .66rem;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .8rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 3rem;
+    }
+
+    .section-rule {
+      width: 40px;
+      height: .5px;
+      background: rgba(200, 157, 255, 0.35);
+      margin-bottom: 2rem;
+    }
+
+    /* ── EVENTS ── */
+    .events-filter {
+      display: flex;
+      gap: .5rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: .5px solid rgba(29, 4, 249, 0.18);
+      color: var(--muted);
+      padding: .38rem 1.1rem;
+      border-radius: 2rem;
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(200, 157, 255, 0.07);
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: .5px solid var(--border);
+    }
+
+    /* MAGIC CARD */
+    .event-card {
+      background: var(--bg);
+      padding: 2rem 1.6rem;
+      cursor: none;
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: transform .05s ease-out;
+    }
+
+    .event-card .card-shine {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .3s;
+      background: radial-gradient(circle at 50% 50%, rgba(200, 157, 255, 0.12) 0%, transparent 65%);
+    }
+
+    .event-card:hover .card-shine {
+      opacity: 1;
+    }
+
+    .event-card.hidden {
+      display: none;
+    }
+
+    .event-cat-dot {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-right: .5rem;
+      vertical-align: middle;
+    }
+
+    .event-category {
+      font-size: .63rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .8rem;
+    }
+
+    .event-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: .55rem;
+    }
+
+    .event-desc {
+      font-size: .79rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .event-meta {
+      font-size: .69rem;
+      color: var(--dim);
+    }
+
+    .event-register {
+      margin-top: 1.2rem;
+      background: transparent;
+      border: .5px solid rgba(20, 4, 250, 0.22);
+      color: rgba(21, 5, 243, 0.65);
+      padding: .33rem .9rem;
+      border-radius: 2rem;
+      font-size: .68rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .2s;
+      display: block;
+      width: fit-content;
+    }
+
+    .event-register:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(200, 157, 255, 0.07);
+    }
+
+    /* ── SCHEDULE ── */
+    .schedule-tabs {
+      display: flex;
+      width: fit-content;
+      border: .5px solid var(--border);
+      border-radius: 2rem;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      padding: .5rem 1.6rem;
+      font-size: .77rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .22s;
+    }
+
+    .tab-btn.active {
+      background: rgba(200, 157, 255, 0.12);
+      color: var(--accent);
+    }
+
+    .schedule-day {
+      display: none;
+    }
+
+    .schedule-day.active {
+      display: block;
+    }
+
+    .schedule-item {
+      display: flex;
+      gap: 2rem;
+      padding: 1.25rem 0;
+      border-bottom: .5px solid rgba(180, 120, 255, 0.07);
+      align-items: flex-start;
+      transition: background .2s;
+      border-radius: 4px;
+    }
+
+    .schedule-item:hover {
+      background: rgba(200, 157, 255, 0.04);
+      padding-left: .6rem;
+    }
+
+    .schedule-item:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-time {
+      font-size: .72rem;
+      color: var(--accent);
+      min-width: 72px;
+      letter-spacing: .05em;
+      padding-top: .1rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .schedule-name {
+      font-size: .92rem;
+      color: var(--ink);
+      margin-bottom: .25rem;
+    }
+
+    .schedule-venue {
+      font-size: .72rem;
+      color: var(--dim);
+    }
+
+    .schedule-tag {
+      display: inline-block;
+      font-size: .58rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .12rem .55rem;
+      border-radius: 2rem;
+      background: rgba(200, 157, 255, 0.09);
+      color: var(--accent);
+      margin-left: .6rem;
+      vertical-align: middle;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: .9rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .about-highlights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .highlight-card {
+      padding: 1.8rem 1.5rem;
+      background: var(--bg2);
+      cursor: none;
+      transition: background .3s, transform .3s;
+    }
+
+    .highlight-card:hover {
+      background: rgba(100, 40, 200, 0.15);
+      transform: scale(1.03);
+    }
+
+    .highlight-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--gold);
+      display: block;
+    }
+
+    .highlight-label {
+      font-size: .66rem;
+      color: #FFFFFF;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .contact-info p {
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.85;
+      margin-bottom: 1.8rem;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: .9rem;
+      margin-bottom: 1.1rem;
+      align-items: flex-start;
+    }
+
+    .contact-icon {
+      color: var(--accent);
+      font-size: 1rem;
+      margin-top: .1rem;
+    }
+
+    .contact-detail {
+      font-size: .83rem;
+      color: var(--muted);
+    }
+
+    .contact-detail strong {
+      color: var(--ink);
+      display: block;
+      font-weight: 500;
+      margin-bottom: .1rem;
+      font-size: .77rem;
+      letter-spacing: .05em;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: .85rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      background: rgba(180, 120, 255, 0.04);
+      border: .5px solid var(--border);
+      color: var(--ink);
+      padding: .8rem 1rem;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .84rem;
+      outline: none;
+      transition: border-color .22s, box-shadow .22s;
+      resize: none;
+      cursor: none;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: var(--dim);
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--border-h);
+      box-shadow: 0 0 0 3px rgba(200, 157, 255, 0.08);
+    }
+
+    .form-success {
+      display: none;
+      color: #9effc8;
+      font-size: .82rem;
+      padding: .7rem;
+      border: .5px solid rgba(100, 255, 160, 0.2);
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: .5px solid var(--border);
+      padding: 2.5rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      letter-spacing: .22em;
+      color: var(--dim);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--dim);
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: rgba(200, 157, 255, 0.65);
+    }
+
+    .footer-copy {
+      font-size: .68rem;
+      color: var(--dim);
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 0, 15, 0.88);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: #0d0018;
+      border: .5px solid rgba(180, 120, 255, 0.22);
+      border-radius: 12px;
+      padding: 2.8rem;
+      max-width: 500px;
+      width: 92%;
+      position: relative;
+      animation: modalIn .25s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.1rem;
+      right: 1.3rem;
+      background: none;
+      border: none;
+      color: var(--dim);
+      font-size: 1.5rem;
+      cursor: none;
+      line-height: 1;
+      transition: color .2s;
+    }
+
+    .modal-close:hover {
+      color: var(--ink);
+    }
+
+    .modal-cat {
+      font-size: .62rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .7rem;
+    }
+
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: .4rem;
+    }
+
+    .modal-meta {
+      font-size: .77rem;
+      color: rgba(200, 157, 255, 0.55);
+      margin-bottom: 1.6rem;
+    }
+
+    .modal-body {
+      font-size: .87rem;
+      color: var(--muted);
+      line-height: 1.82;
+      margin-bottom: 1.6rem;
+    }
+
+    .modal-rules-label {
+      font-size: .62rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(200, 157, 255, 0.45);
+      margin-bottom: .8rem;
+    }
+
+    .modal-rules {
+      list-style: none;
+      margin-bottom: 1.8rem;
+    }
+
+    .modal-rules li {
+      font-size: .8rem;
+      color: var(--muted);
+      padding: .4rem 0;
+      border-bottom: .5px solid rgba(180, 120, 255, 0.07);
+    }
+
+    .modal-rules li::before {
+      content: '— ';
+      color: var(--accent);
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-36px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal-left.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(36px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal-right.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-zoom {
+      opacity: 0;
+      transform: scale(.9);
+      transition: opacity .6s ease, transform .6s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .reveal-zoom.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger>* {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+
+    .stagger.in>*:nth-child(1) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .04s;
+    }
+
+    .stagger.in>*:nth-child(2) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .11s;
+    }
+
+    .stagger.in>*:nth-child(3) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .18s;
+    }
+
+    .stagger.in>*:nth-child(4) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .25s;
+    }
+
+    .stagger.in>*:nth-child(5) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .32s;
+    }
+
+    .stagger.in>*:nth-child(6) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .39s;
+    }
+
+    .stagger.in>*:nth-child(7) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .46s;
+    }
+
+    .stagger.in>*:nth-child(8) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .53s;
+    }
+
+    .stagger.in>*:nth-child(9) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .60s;
+    }
+
+    .stagger.in>*:nth-child(10) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .67s;
+    }
+
+    .stagger.in>*:nth-child(11) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .74s;
+    }
+
+    .theme-toggle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border-h);
+      background: transparent;
+      color: var(--accent);
+      font-size: 1.2rem;
+      cursor: none;
+      transition: background .3s, transform .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(245, 184, 0, .15);
+      transform: rotate(20deg) scale(1.1);
+    }
+
+    @media(max-width:768px) {
+      body {
+        cursor: auto;
+      }
+
+      #cursor {
+        display: none;
+      }
+
+      nav {
+        padding: 1rem 1.4rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .section-wrap {
+        padding: 4rem 1.4rem;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cd-unit {
+        padding: 0 1.2rem;
+      }
+
+      .cd-num {
+        font-size: 2.8rem;
+      }
+
+      footer {
+        padding: 2rem 1.4rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* ── PIANO ── */
+    #piano-wrap {
+      perspective: 900px;
+    }
+
+    #piano-container {
+      width: 100%;
+      height: 420px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(160deg, #08000f 0%, #0f0020 60%, #06000c 100%);
+      border-radius: 16px;
+      cursor: none;
+      border: .5px solid rgba(180, 120, 255, 0.2);
+      box-shadow: 0 0 60px rgba(120, 40, 255, 0.08), inset 0 1px 0 rgba(200, 157, 255, 0.06);
+      transform: rotateX(6deg);
+      transition: transform .4s ease;
+    }
+
+    #piano-container:hover {
+      transform: rotateX(2deg);
+    }
+
+    #piano-cursor-glow {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(200, 157, 255, 0.65);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 20px 8px rgba(180, 140, 255, 0.35);
+      transition: left .04s, top .04s;
+    }
+
+    #note-label {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(220, 200, 255, 0.85);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      pointer-events: none;
+      transition: opacity .3s;
+      text-transform: uppercase;
+    }
+
+    #piano-hint {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, 0.2);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      pointer-events: none;
+      white-space: nowrap;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .piano-key-flash {
+      animation: keyFlash .3s ease forwards;
+    }
+
+    @keyframes keyFlash {
+      0% {
+        filter: brightness(2)
+      }
+
+      100% {
+        filter: brightness(1)
+      }
+    }
+
+    /* ── SCRIBBLE PAD ── */
+    #scribble-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .9rem;
+      align-items: flex-end;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+      background: rgba(200, 157, 255, 0.04);
+      border: .5px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .sb-group {
+      display: flex;
+      flex-direction: column;
+      gap: .45rem;
+    }
+
+    .sb-label {
+      font-size: .62rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .sb-colors {
+      display: flex;
+      gap: .4rem;
+      align-items: center;
+      position: relative;
+    }
+
+    .sb-color {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: none;
+      transition: transform .15s, border-color .15s;
+      flex-shrink: 0;
+    }
+
+    .sb-color:hover {
+      transform: scale(1.2);
+    }
+
+    .sb-color.active {
+      border-color: var(--ink);
+      transform: scale(1.15);
+    }
+
+    .sb-picker-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: none;
+      font-size: 11px;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .sb-tools {
+      display: flex;
+      gap: .4rem;
+    }
+
+    .sb-tool {
+      background: transparent;
+      border: .5px solid var(--border);
+      color: var(--muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: none;
+      transition: all .18s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sb-tool:hover {
+      border-color: var(--border-h);
+      background: rgba(200, 157, 255, 0.07);
+    }
+
+    .sb-tool.active {
+      border-color: var(--accent);
+      background: rgba(200, 157, 255, 0.14);
+      color: var(--ink);
+    }
+
+    .sb-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 120px;
+      height: 3px;
+      border-radius: 2px;
+      background: rgba(200, 157, 255, 0.2);
+      outline: none;
+      cursor: none;
+    }
+
+    .sb-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: none;
+      border: 2px solid var(--bg);
+    }
+
+    .sb-actions {
+      flex-direction: row;
+      gap: .5rem;
+      align-self: flex-end;
+    }
+
+    .sb-action {
+      background: transparent;
+      border: .5px solid var(--border);
+      color: var(--muted);
+      padding: .35rem .9rem;
+      border-radius: 2rem;
+      font-size: .7rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      cursor: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .2s;
+    }
+
+    .sb-action:hover {
+      border-color: var(--border-h);
+      color: var(--ink);
+    }
+
+    .sb-download {
+      border-color: rgba(200, 157, 255, 0.4);
+      color: var(--accent);
+    }
+
+    .sb-download:hover {
+      background: rgba(200, 157, 255, 0.1);
+    }
+
+    #scribble-wrap {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      border: .5px solid rgba(200, 157, 255, 0.18);
+      box-shadow: 0 0 40px rgba(100, 30, 200, 0.08), inset 0 1px 0 rgba(200, 157, 255, 0.05);
+      cursor: none;
+    }
+
+    #scribbleCanvas {
+      display: block;
+      width: 100%;
+      height: 480px;
+      touch-action: none;
+    }
+
+    #scribble-cursor {
+      position: absolute;
+      pointer-events: none;
+      border-radius: 50%;
+      border: 1.5px solid rgba(200, 157, 255, 0.7);
+      transform: translate(-50%, -50%);
+      transition: width .1s, height .1s;
+      box-shadow: 0 0 8px rgba(200, 157, 255, 0.3);
+      z-index: 5;
+    }
+
+    #scribble-hint-text {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: .7rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(200, 157, 255, 0.2);
+      pointer-events: none;
+      white-space: nowrap;
+      transition: opacity .5s;
+    }
+
+    #path-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: .35;
+    }
+
+    #scroll-path {
+      width: 70%;
+      height: 100%;
+    }
+
+    #journey-path {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-dasharray: 5000;
+      stroke-dashoffset: 5000;
+      filter: drop-shadow(0 0 12px var(--accent));
+    }
+
+    /* Light theme */
+    html[data-theme="light"] #journey-path {
+      stroke: var(#1100ff);
+      filter: drop-shadow(0 0 3px rgb(10, 0, 41));
+    }
+
+    /* Dark theme */
+    html:not([data-theme="light"]) #journey-path {
+      stroke: var(--gold);
+      filter: drop-shadow(0 0 12px rgba(245, 184, 0, .4));
+    }
+
+    .music-note {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9997;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: bold;
+      transform: translate(-50%, -50%);
+      animation: noteFloat 1.5s ease-out forwards;
+      text-shadow: 0 0 8px currentColor;
+    }
+
+    html[data-theme="light"] .music-note {
+      color: var(--primary);
+    }
+
+    @keyframes noteFloat {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform:
+          translate(-50%, -90px) scale(1.8) rotate(20deg);
+      }
+    }
+
+    #spotlight {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+
+      transform: translate(-50%, -50%);
+
+      background: radial-gradient(circle,
+          rgba(245, 184, 0, .18) 0%,
+          rgba(245, 184, 0, .08) 35%,
+          rgba(245, 184, 0, 0) 70%);
+
+      filter: blur(20px);
+
+      transition:
+        width .3s ease,
+        height .3s ease;
+
+      mix-blend-mode: screen;
+    }
+
+    html[data-theme="light"] #spotlight {
+      background: radial-gradient(circle,
+          rgba(0, 8, 40, .75) 0%,
+          rgba(0, 25, 120, .15) 20%,
+          transparent 0%);
+
+      filter: blur(20px);
+    }
+
+    #spotlight {
+      z-index: 2;
+    }
+
+
+    #cursor-dot,
+    #cursor-ring {
+      z-index: 9999;
+    }
+
+    #galaxy-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+
+      background:
+        radial-gradient(circle at 20% 30%, #002855 0%, transparent 25%),
+        radial-gradient(circle at 75% 20%, #001845 0%, transparent 30%),
+        radial-gradient(circle at 30% 80%, #003566 0%, transparent 20%),
+        radial-gradient(circle at 70% 70%, #001233 0%, transparent 25%),
+        #000814;
+
+      opacity: .7;
+
+      mask-image:
+        radial-gradient(circle 220px at 50% 50%,
+          white 0%,
+          transparent 100%);
+
+      -webkit-mask-image:
+        radial-gradient(circle 220px at 50% 50%,
+          white 0%,
+          transparent 100%);
+    }
+
+    #galaxy-layer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+
+      background-image:
+        radial-gradient(white 1px, transparent 1px);
+
+      background-size: 20px 20px;
+
+      opacity: .25;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="galaxy-layer"></div>
+  <div id="spotlight"></div>
+  <div id="path-layer">
+    <svg id="scroll-path" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <path id="journey-path" d="
+        M50 0
+        C60 20,40 30,50 50
+        C60 70,40 80,50 100
+      " />
+    </svg>
+  </div>
+  <!-- CURSOR -->
+  <div id="cursor">
+    <div id="cursor-ring"></div>
+    <div id="cursor-dot"></div>
+  </div>
+
+  <!-- THREE.JS CANVAS -->
+  <canvas id="three-canvas"></canvas>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo" onclick="scrollTo({top:0,behavior:'smooth'})">Saaz</div>
+    <ul class="nav-links">
+      <li><a onclick="go('#events')">Events</a></li>
+      <li><a onclick="go('#schedule')">Schedule</a></li>
+      <li><a onclick="go('#piano')">Music</a></li>
+      <li><a onclick="go('#scribble')">Art</a></li>
+      <li><a onclick="go('#about')">About</a></li>
+      <li><a onclick="go('#contact')">Contact</a></li>
+    </ul>
+    <div style="display:flex;gap:.7rem;align-items:center;">
+      <button class="nav-cta" onclick="openRegister()">Register</button>
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme">🌙</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <p class="hero-eyebrow">Cultural Council · IIT Bhilai · Summer Festival</p>
+    <div class="hero-divider"></div>
+    <h1 class="hero-title" id="heroTitle"></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-subtitle">Culture at the heart of Central India</p>
+    <div class="hero-divider"></div>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="go('#events')">Explore Events</button>
+      <button class="btn-ghost" onclick="openRegister()">Register Now</button>
+    </div>
+    <div id="viz-wrap"></div>
+    <div class="scroll-hint" onclick="go('#events')">
+      <div class="scroll-line"></div>Scroll
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat reveal-zoom"><span class="stat-num" data-target="500">0</span><span
+        class="stat-label">Participants</span></div>
+    <div class="stat reveal-zoom" style="transition-delay:.1s"><span class="stat-num" data-target="11">0</span><span
+        class="stat-label">Events</span></div>
+    <div class="stat reveal-zoom" style="transition-delay:.3s"><span class="stat-num" data-suffix="k+"
+        data-target="50">0</span><span class="stat-label">Prize Pool ₹</span></div>
+  </div>
+
+  <!-- EVENTS -->
+  <div class="section-wrap" id="events">
+    <p class="section-label reveal">What's on</p>
+    <h2 class="section-title reveal">Events &amp; Performances</h2>
+    <div class="section-rule reveal"></div>
+    <div class="events-filter stagger reveal">
+      <button class="filter-btn active" onclick="filterEvents('all',this)">All</button>
+      <button class="filter-btn" onclick="filterEvents('music',this)">Music</button>
+      <button class="filter-btn" onclick="filterEvents('dance',this)">Dance</button>
+      <button class="filter-btn" onclick="filterEvents('drama',this)">Drama</button>
+      <button class="filter-btn" onclick="filterEvents('art',this)">Art</button>
+      <button class="filter-btn" onclick="filterEvents('designing',this)">Designing</button>
+      <button class="filter-btn" onclick="filterEvents('literary',this)">Literary</button>
+      <button class="filter-btn" onclick="filterEvents('photography',this)">Photography</button>
+      <button class="filter-btn" onclick="filterEvents('videography',this)">Videography</button>
+      <button class="filter-btn" onclick="filterEvents('quiz',this)">Quiz</button>
+    </div>
+    <div class="events-grid stagger" id="eventsGrid">
+      <div class="event-card" data-cat="drama">
+        <div class="card-shine"></div>
+        <p class="event-category"><span class="event-cat-dot"></span>Drama</p>
+        <p class="event-name">Curtain Call India</p>
+        <p class="event-desc">Drishya - Dramatics Club</p>
+        <a href="https://drive.google.com/file/d/1iRQuqwW9_4t3r-64C3xjssuxvI31XBZy/view" target="_blank"><button
+            class="event-register">View Rulebook →</button></a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd81S_PKmDFqR5DajUvSj12sbkJS6cEsyOdi8mAcIEgjUKErg/viewform"
+          target="_blank"><button class="event-register">Register →</button></a>
+      </div>
+
+      <div class="event-card" data-cat="literary">
+        <div class="card-shine"></div>
+        <p class="event-category"><span class="event-cat-dot"></span>Literary</p>
+        <p class="event-name">Aaroh</p>
+        <p class="event-desc">GOALS - Literary Society</p>
+        <a href="https://drive.google.com/file/d/1Pc8aJ_swswh4IrB-CvZWWf5sLXRa03rW/view" target="_blank"><button
+            class="event-register">View Rulebook →</button></a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc4rl92tijMuvSdW3hWb5rjLhgPR7Is7CC4hOCDYCEBqOAQLg/viewform"
+          target="_blank"><button class="event-register">Register →</button></a>
+      </div>
+
+      <div class="event-card" data-cat="literary">
+        <div class="card-shine"></div>
+        <p class="event-category"><span class="event-cat-dot"></span>Literary</p>
+        <p class="event-name">Lexicon</p>
+        <p class="event-desc">GOALS - Literary Society</p>
+        <a href="https://drive.google.com/file/d/1eFzelW6fAnmN0nU0VqaYhXQ1FbAA0sGg/view" target="_blank"><button
+            class="event-register">View Rulebook →</button></a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeVIVcpkrTSBOrJx6-6uK-M2if_hHn4ZV1iz0Bq3W-DBT-sXQ/viewform"
+          target="_blank"><button class="event-register">Register →</button></a>
+      </div>
+
+      <div class="event-card" data-cat="art">
+        <div class="card-shine"></div>
+        <p class="event-category"><span class="event-cat-dot"></span>Art</p>
+        <p class="event-name">Piece Untold</p>
+        <p class="event-desc">Renaissance - Art Club</p>
+        <a href="https://www.canva.com/design/DAHLus6LyIk/57BkmSSm17rxaa3sHBgTAA/edit" target="_blank"><button
+            class="event-register">View Rulebook →</button></a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHQbR30o57vXGKO9hvXzwGFO0J5Aj2B3TkKBJYGTqgWZpItA/viewform"
+          target="_blank"><button class="event-register">Register →</button></a>
+      </div>
+
+      <div class="event-card" data-cat="photography">
+        <div class="card-shine"></div>
+        <p class="event-category"><span class="event-cat-dot"></span>Photography</p>
+        <p class="event-name">What I See vs What I Capture</p>
+        <p class="event-desc">The Pixel Snappers - Photography Club</p>
+        <a href="https://drive.google.com/file/d/1rZXnOTjQ7UI4rbm93T34zFyBdCVeE7QY/view"><button
+            class="event-register">View Rulebook →</button></a>
+        <a href="https://docs.google.com/forms/d/1GFbXf_PsBKVWIsIf7fR7CIfZK8nikV_WTEVA7K_uaIQ/viewform"
+          target="_blank"><button class="event-register">Register →</button></a>
+      </div>
+
+      <div class="event-card" data-cat="videography">
+        <div class="card-shine"></div>
+        <p class="event-category"><span class="event-cat-dot"></span>Videography</p>
+        <p class="event-name">Re:Frame</p>
+        <p class="event-desc">Film Production Society - Videography Society</p>
+        <a href="https://docs.google.com/document/d/1zF754S9CLRC9-hVrwDJcWc7VMJhR4m6w_YoDdBT7pME/edit?tab=t.0"
+          target="_blank"><button class="event-register">View Rulebook →</button></a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSchruJZ3XBIy7mLHw-dIK7EnHuMbGGZFoGbFjG8IlhsUwffwg/viewform"
+          target="_blank"><button class="event-register">Register →</button></a>
+      </div>
+
+      <div class="event-card" data-cat="literary">
+        <div class="card-shine"></div>
+        <p class="event-category"><span class="event-cat-dot"></span>Literary</p>
+        <p class="event-name">The Conspiracy Files</p>
+        <p class="event-desc">GOALS - Literary Society</p>
+        <a href="" target="_blank"><button class="event-register">View Rulebook →</button></a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeqzX7phKTDwSRrQck3e5LTJsRZ0mEVzr1jSsn-mQ1qnwVwxw/viewform"
+          target="_blank"><button class="event-register">Register →</button></a>
+      </div>
+
+      <div class="event-card" data-cat="music">
+        <div class="card-shine"></div>
+        <p class="event-category"><span class="event-cat-dot"></span>Music</p>
+        <p class="event-name">Surmayi</p>
+        <p class="event-desc">Swara - Music Club</p>
+        <a href="https://drive.google.com/file/d/12jB90x6dDEWC_QnB27WHPwUCb8MhdGHT/view" 
+        target="_blank"><button class="event-register">View Rulebook →</button></a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScjX1a1IF1-39t77dx2-Y-lwmpqSl1GH90FnfcGzhJOYFYN4Q/viewform"
+          target="_blank"><button class="event-register">Register →</button></a>
+      </div>
+
+      <div class="event-card" data-cat="dance">
+        <div class="card-shine"></div>
+        <p class="event-category"><span class="event-cat-dot"></span>Dance</p>
+        <p class="event-name">RAW</p>
+        <p class="event-desc">Beathackers - Dance Club</p>
+        <a href="https://docs.google.com/document/d/1hhtRB9ChrRwPSVhivUotF95FhwjFB0Fi6Q_8k4-hul0"
+          target="_blank"><button class="event-register">View Rulebook →</button></a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSedPuwq5_uj_1fhA9nrUUIrpLNnNUoesgBUUFT6blPHNpREhA/viewform"
+          target="_blank"><button class="event-register">Register →</button></a>
+      </div>
+
+      <div class="event-card" data-cat="designing">
+        <div class="card-shine"></div>
+        <p class="event-category"><span class="event-cat-dot"></span>Designing</p>
+        <p class="event-name">VORTEX</p>
+        <p class="event-desc">DesignX - Designing Club</p>
+        <a href="https://onedrive.live.com/:w:/g/personal/805fc8be3031fb1d/IQBKhmr5A6b8RZQ1LA-b2KVSAZc8XMsMR16wP_XZd5BPE6A?rtime=31nsk-PH3kg&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3cvYy84MDVmYzhiZTMwMzFmYjFkL0lRQktobXI1QTZiOFJaUTFMQS1iMktWU0FaYzhYTXNNUjE2d1BfWFpkNUJQRTZBP2U9NVVjSEVy"
+          target="_blank"><button class="event-register">View Rulebook →</button></a>
+        <a href="https://docs.google.com/forms/d/1ZVmseGWfv6AOv7hCsbvTz6KUtsmygTofbrz-IPu543o/viewform"
+          target="_blank"><button class="event-register">Register →</button></a>
+      </div>
+
+      <div class="event-card" data-cat="quiz">
+        <div class="card-shine"></div>
+        <p class="event-category"><span class="event-cat-dot"></span>Quiz</p>
+        <p class="event-name">ExQuizite</p>
+        <p class="event-desc">Quizzotica - Quiz Club</p>
+        <a href="https://drive.google.com/file/d/1WKpOopGwOLMxWJ1BNXGujHiz1uiVXU0C/view" target="_blank"><button
+            class="event-register">View Rulebook →</button></a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdyMJonfVdDZRa5aSHbgcGP-IVBzERV36-RPgeW3qirxiReNQ/viewform"
+          target="_blank"><button class="event-register">Register →</button></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="section-wrap" id="schedule" style="border-top:.5px solid var(--border)">
+    <p class="section-label reveal">Mark Your Calender</p>
+    <h2 class="section-title reveal">Schedule</h2>
+    <div class="section-rule reveal">20th June Onwards</div>
+  </div>
+
+  <!-- PIANO -->
+  <div class="section-wrap" id="piano" style="border-top:.5px solid var(--border)">
+    <p class="section-label reveal">Interactive</p>
+    <h2 class="section-title reveal">Play the Festival</h2>
+    <div class="section-rule reveal"></div>
+    <p class="reveal" style="font-size:.85rem;color:var(--muted);margin-bottom:2rem;line-height:1.8;">A 3D interactive
+      piano — hover the keys, click to play real notes. The soundtrack of Saaz, in your hands.</p>
+    <div id="piano-wrap" class="reveal">
+      <div id="piano-container">
+        <canvas id="pianoCanvas"></canvas>
+        <div id="piano-cursor-glow"></div>
+        <div id="note-label">hover over the keys</div>
+        <div id="piano-hint">move cursor · click to play</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIBBLE PAD -->
+  <div class="section-wrap" id="scribble" style="border-top:.5px solid var(--border)">
+    <p class="section-label reveal">Creative Corner</p>
+    <h2 class="section-title reveal">Scribble Pad</h2>
+    <div class="section-rule reveal"></div>
+    <p class="reveal" style="font-size:.85rem;color:var(--muted);margin-bottom:2rem;line-height:1.8;">Leave your mark on
+      Saaz. Draw, doodle, sketch — express yourself on the canvas.</p>
+
+    <!-- TOOLBAR -->
+    <div class="reveal" id="scribble-toolbar">
+      <!-- Colors -->
+      <div class="sb-group">
+        <span class="sb-label">Color</span>
+        <div class="sb-colors" id="sb-colors">
+          <button class="sb-color active" data-color="#c89dff" style="background:#c89dff" title="Lavender"></button>
+          <button class="sb-color" data-color="#e8c87a" style="background:#e8c87a" title="Gold"></button>
+          <button class="sb-color" data-color="#f3eeff" style="background:#f3eeff" title="White"></button>
+          <button class="sb-color" data-color="#80d8ff" style="background:#80d8ff" title="Cyan"></button>
+          <button class="sb-color" data-color="#ff90c8" style="background:#ff90c8" title="Pink"></button>
+          <button class="sb-color" data-color="#90ff9a" style="background:#90ff9a" title="Mint"></button>
+          <button class="sb-color" data-color="#ffb060" style="background:#ffb060" title="Orange"></button>
+          <button class="sb-color" data-color="#ff6060" style="background:#ff6060" title="Red"></button>
+          <input type="color" id="sb-custom-color" value="#c89dff" title="Custom color"
+            style="opacity:0;position:absolute;width:28px;height:28px;cursor:pointer;" />
+          <button class="sb-color sb-picker-btn" id="sb-picker-trigger" title="Custom color"
+            style="background:conic-gradient(red,yellow,lime,cyan,blue,magenta,red)">+</button>
+        </div>
+      </div>
+      <!-- Tools -->
+      <div class="sb-group">
+        <span class="sb-label">Tool</span>
+        <div class="sb-tools">
+          <button class="sb-tool active" data-tool="pen" title="Pen">✏️</button>
+          <button class="sb-tool" data-tool="brush" title="Soft Brush">🖌️</button>
+          <button class="sb-tool" data-tool="spray" title="Spray">💨</button>
+          <button class="sb-tool" data-tool="eraser" title="Eraser">🧹</button>
+        </div>
+      </div>
+      <!-- Size -->
+      <div class="sb-group">
+        <span class="sb-label">Size <span id="sb-size-val">4</span></span>
+        <input type="range" id="sb-size" min="1" max="40" value="4" class="sb-slider" />
+      </div>
+      <!-- Opacity -->
+      <div class="sb-group">
+        <span class="sb-label">Opacity <span id="sb-opacity-val">100</span>%</span>
+        <input type="range" id="sb-opacity" min="10" max="100" value="100" class="sb-slider" />
+      </div>
+      <!-- Actions -->
+      <div class="sb-group sb-actions">
+        <button class="sb-action" id="sb-undo" title="Undo">↩ Undo</button>
+        <button class="sb-action" id="sb-clear" title="Clear">✕ Clear</button>
+        <button class="sb-action sb-download" id="sb-save" title="Save as PNG">↓ Save</button>
+      </div>
+    </div>
+
+    <!-- CANVAS -->
+    <div id="scribble-wrap" class="reveal">
+      <canvas id="scribbleCanvas"></canvas>
+      <div id="scribble-cursor"></div>
+      <div id="scribble-hint-text">✦ click and drag to draw</div>
+    </div>
+  </div>
+
+
+  <!-- ABOUT -->
+  <div class="section-wrap" id="about" style="border-top:.5px solid var(--border)">
+    <p class="section-label reveal">Our story</p>
+    <h2 class="section-title reveal">About Saaz</h2>
+    <div class="section-rule reveal"></div>
+    <div class="about-grid">
+      <div class="about-text reveal-left">
+        <p>Saaz is the annual summer cultural festival of IIT Bhilai, organized by the Cultural Council. A celebration
+          of creativity, expression, and talent — bringing together students from across India for three days of
+          unforgettable performances and competitions.</p>
+        <p>From classical dance to street battles, from poetry slams to band showdowns — Saaz is the stage where every
+          art form finds its voice.</p>
+        <p>Whether you're a performer, an audience member, or a volunteer — Saaz has a place for you.</p>
+      </div>
+      <div class="about-highlights reveal-right">
+        <div class="highlight-card"><span class="highlight-num">9</span><span class="highlight-label">Event
+            Categories</span></div>
+        <div class="highlight-card"><span class="highlight-num">11</span><span
+            class="highlight-label">Competitions</span></div>
+        <div class="highlight-card"><span class="highlight-num">500+</span><span
+            class="highlight-label">Participants</span></div>
+        <div class="highlight-card"><span class="highlight-num">₹50k+</span><span class="highlight-label">Prize
+            Pool</span></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- CONTACT -->
+  <div class="section-wrap" id="contact" style="border-top:.5px solid var(--border)">
+    <p class="section-label reveal">Get in touch</p>
+    <h2 class="section-title reveal">Contact Us</h2>
+    <div class="section-rule reveal"></div>
+    <div class="contact-grid">
+      <div class="contact-info reveal-left">
+        <p>Questions about events, registration, or sponsorships? Reach out and we'll respond.</p>
+        <div class="contact-item"><span class="contact-icon">✉</span>
+          <div class="contact-detail"><strong>General Secretrary</strong>Gensec_Cultural_Gymkhana.iitbhilai.ac.in</div>
+        </div>
+        <div class="contact-item"><span class="contact-icon">📍</span>
+          <div class="contact-detail"><strong>Venue</strong>IIT Bhilai</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">SAAZ</div>
+    <ul class="footer-links">
+      <li><a onclick="go('#events')">Events</a></li>
+      <li><a onclick="go('#schedule')">Schedule</a></li>
+      <li><a onclick="go('#about')">About</a></li>
+      <li><a onclick="go('#contact')">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© Cultural Council, IIT Bhilai</p>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <p class="modal-cat" id="m-cat"></p>
+      <h2 class="modal-title" id="m-title"></h2>
+      <p class="modal-meta" id="m-meta"></p>
+      <p class="modal-body" id="m-body"></p>
+      <p class="modal-rules-label">Rules</p>
+      <ul class="modal-rules" id="m-rules"></ul>
+      <button class="btn-primary" style="width:100%;" onclick="openRegister()">Register for this event →</button>
+    </div>
+  </div>
+
+  <!-- THREE.JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    /* ════════════════════════════════════════════
+       THREE.JS — floating ring + orbiting orbs
+    ═══════════════════════════════════════════ */
+    (function () {
+      const canvas = document.getElementById('three-canvas');
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 0);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.set(0, 0, 5);
+
+      // Large torus ring
+      const torusGeo = new THREE.TorusGeometry(2.2, 0.012, 16, 120);
+      const torusMat = new THREE.MeshBasicMaterial({ color: 0x9d60ff, transparent: true, opacity: .35 });
+      const torus = new THREE.Mesh(torusGeo, torusMat);
+      torus.rotation.x = Math.PI * 0.25;
+      scene.add(torus);
+
+      // Second inner ring
+      const torus2Geo = new THREE.TorusGeometry(1.4, 0.008, 16, 80);
+      const torus2Mat = new THREE.MeshBasicMaterial({ color: 0xe8c87a, transparent: true, opacity: .2 });
+      const torus2 = new THREE.Mesh(torus2Geo, torus2Mat);
+      torus2.rotation.x = -Math.PI * 0.35;
+      torus2.rotation.y = Math.PI * 0.2;
+      scene.add(torus2);
+
+      // Orbiting orbs
+      const orbGroup = new THREE.Group();
+      scene.add(orbGroup);
+      const orbColors = [0xc89dff, 0xe8c87a, 0x80c0ff, 0xff90d0, 0xc89dff];
+      const orbs = orbColors.map((col, i) => {
+        const geo = new THREE.SphereGeometry(0.04 + Math.random() * 0.04, 8, 8);
+        const mat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: .75 });
+        const mesh = new THREE.Mesh(geo, mat);
+        const angle = (i / orbColors.length) * Math.PI * 2;
+        const radius = 1.5 + Math.random() * 1.2;
+        mesh.userData = { angle, radius, speed: 0.003 + Math.random() * 0.004, yOff: (Math.random() - .5) * 0.8 };
+        mesh.position.set(Math.cos(angle) * radius, mesh.userData.yOff, Math.sin(angle) * radius);
+        orbGroup.add(mesh);
+        return mesh;
+      });
+
+      // Floating dots field
+      const dotsGeo = new THREE.BufferGeometry();
+      const N = 180;
+      const pos = new Float32Array(N * 3);
+      for (let i = 0; i < N; i++) {
+        pos[i * 3] = (Math.random() - .5) * 12;
+        pos[i * 3 + 1] = (Math.random() - .5) * 8;
+        pos[i * 3 + 2] = (Math.random() - .5) * 6 - 2;
+      }
+      dotsGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      const dotsMat = new THREE.PointsMaterial({ color: 0xc89dff, size: .04, transparent: true, opacity: .45 });
+      const dots = new THREE.Points(dotsGeo, dotsMat);
+      scene.add(dots);
+
+      let mx = 0, my = 0;
+      window.addEventListener('mousemove', e => {
+        mx = (e.clientX / window.innerWidth - .5) * 2;
+        my = -(e.clientY / window.innerHeight - .5) * 2;
+      });
+
+      let t = 0;
+      function animate() {
+        requestAnimationFrame(animate);
+        t += 0.008;
+
+        // scroll-driven fade: hide when scrolled past hero
+        const heroH = document.getElementById('home').offsetHeight;
+        const scrollY = window.scrollY;
+        const fade = Math.max(0, 1 - scrollY / (heroH * 0.7));
+        canvas.style.opacity = fade;
+
+        // rings
+        torus.rotation.z += 0.003;
+        torus.rotation.y += 0.001;
+        torus2.rotation.z -= 0.004;
+        torus2.rotation.x += 0.001;
+
+        // mouse-responsive camera lean
+        camera.position.x += (mx * 0.6 - camera.position.x) * 0.04;
+        camera.position.y += (my * 0.4 - camera.position.y) * 0.04;
+        camera.lookAt(0, 0, 0);
+
+        // orbiting orbs
+        orbs.forEach(o => {
+          o.userData.angle += o.userData.speed;
+          const a = o.userData.angle;
+          const r = o.userData.radius;
+          o.position.x = Math.cos(a) * r;
+          o.position.z = Math.sin(a) * r;
+          o.position.y = o.userData.yOff + Math.sin(t * 1.3 + a) * 0.25;
+        });
+
+        // gentle dots drift
+        dots.rotation.y += 0.0005;
+        dots.rotation.x = Math.sin(t * 0.3) * 0.05;
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    })();
+
+    /* ════════════════════════════════════════════
+       HERO TITLE — split chars + animate in
+    ═══════════════════════════════════════════ */
+    (function () {
+      const el = document.getElementById('heroTitle');
+      // Replace text with logo image
+      el.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = 'loogoo.png';
+      img.alt = 'SAAZ';
+      img.id = 'hero-logo-img';
+      img.style.cssText = 'opacity:0;transform:translateY(40px) scale(0.92);transition:opacity .9s ease, transform .9s cubic-bezier(.34,1.56,.64,1);';
+      el.appendChild(img);
+      setTimeout(() => {
+        img.style.opacity = '1';
+        img.style.transform = 'translateY(0) scale(1)';
+      }, 80);
+    })();
+
+    /* ════════════════════════════════════════════
+       FAKE AUDIO VISUALIZER — procedural bars
+    ═══════════════════════════════════════════ */
+    (function () {
+      const wrap = document.getElementById('viz-wrap');
+      const N = 48;
+      const bars = [];
+      for (let i = 0; i < N; i++) {
+        const b = document.createElement('div');
+        b.className = 'vbar';
+        b.style.cssText = 'flex:1;border-radius:2px 2px 0 0;transform-origin:bottom;background:linear-gradient(to top,rgba(200,157,255,0.7),rgba(232,200,122,0.25));';
+        wrap.appendChild(b);
+        bars.push(b);
+      }
+      // Per-bar random phase & freq for organic motion
+      const phases = bars.map(() => Math.random() * Math.PI * 2);
+      const freqs = bars.map(() => 0.8 + Math.random() * 1.4);
+      let t = 0;
+      function tick() {
+        t += 0.04;
+        bars.forEach((b, i) => {
+          // multi-sine for musicality
+          const h = 8 + 30 * Math.abs(
+            0.5 * Math.sin(t * freqs[i] + phases[i]) +
+            0.3 * Math.sin(t * freqs[i] * 1.7 + phases[i] * 1.3) +
+            0.2 * Math.sin(t * freqs[i] * 0.5 + phases[i] * 0.7)
+          );
+          b.style.height = h + 'px';
+        });
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
+
+
+    (function () {
+      const dot = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let rx = 0, ry = 0, dx = 0, dy = 0;
+      let raf;
+
+      window.addEventListener('mousemove', e => {
+        dx = e.clientX; dy = e.clientY;
+        dot.style.left = dx + 'px';
+        dot.style.top = dy + 'px';
+        if (!raf) raf = requestAnimationFrame(lerp);
+      });
+
+      function lerp() {
+        raf = null;
+        rx += (dx - rx) * 0.12;
+        ry += (dy - ry) * 0.12;
+        ring.style.left = rx + 'px';
+        ring.style.top = ry + 'px';
+        if (Math.abs(dx - rx) > 0.3 || Math.abs(dy - ry) > 0.3) raf = requestAnimationFrame(lerp);
+      }
+
+      // Magnetic pull towards interactive elements
+      const magnets = 'button,a,.event-card,.stat,.highlight-card,.sponsor-badge,.filter-btn,.tab-btn';
+      document.querySelectorAll(magnets).forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+      });
+
+      // Click ripple
+      window.addEventListener('click', e => {
+        const r = document.createElement('div');
+        r.className = 'ripple';
+        r.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;width:40px;height:40px;`;
+        document.body.appendChild(r);
+        r.addEventListener('animationend', () => r.remove());
+      });
+    })();
+
+    /* ════════════════════════════════════════════
+       EVENT CARD — 3D TILT + SHINE
+    ═══════════════════════════════════════════ */
+    document.querySelectorAll('.event-card').forEach(card => {
+      const shine = card.querySelector('.card-shine');
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const nx = (e.clientX - r.left) / r.width - .5;
+        const ny = (e.clientY - r.top) / r.height - .5;
+        card.style.transform = `perspective(700px) rotateY(${nx * 16}deg) rotateX(${ny * -12}deg) scale(1.03)`;
+        card.style.zIndex = '3';
+        const px = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+        const py = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+        if (shine) shine.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(200,157,255,0.18) 0%, transparent 60%)`;
+        if (shine) shine.style.opacity = '1';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        card.style.zIndex = '';
+        if (shine) { shine.style.opacity = '0'; }
+      });
+    });
+
+    /* ════════════════════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════════════════ */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: .1 });
+    document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-zoom,.stagger').forEach(el => io.observe(el));
+
+    /* ════════════════════════════════════════════
+       STAT COUNTER ANIMATION
+    ═══════════════════════════════════════════ */
+    function animateCounter(el) {
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '+';
+      const dur = 1400, start = performance.now();
+      const prefix = el.textContent.includes('₹') ? '₹' : '';
+      function frame(now) {
+        const p = Math.min((now - start) / dur, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = prefix + Math.round(ease * target) + suffix;
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+    const statIO = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.stat-num[data-target]').forEach(animateCounter);
+          statIO.unobserve(e.target);
+        }
+      });
+    }, { threshold: .5 });
+    document.querySelector('.stats') && statIO.observe(document.querySelector('.stats'));
+
+    /* ════════════════════════════════════════════
+       HELPERS
+    ═══════════════════════════════════════════ */
+    function go(id) { document.querySelector(id).scrollIntoView({ behavior: 'smooth' }); }
+    function openRegister() { window.open('https://docs.google.com/forms/u/0/d/1W_uqnC9YCd5I9OAr6h81ld1oC6SizzrbkBdvgsPSDWs/viewform', '_blank'); }
+
+    function filterEvents(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.event-card').forEach(card => {
+        (cat === 'all' || card.dataset.cat === cat) ? card.classList.remove('hidden') : card.classList.add('hidden');
+      });
+    }
+
+    function switchTab(day, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.schedule-day').forEach(d => d.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(day).classList.add('active');
+    }
+
+    function openModal(title, meta, body, prize, rulesStr) {
+      document.getElementById('m-title').textContent = title;
+      document.getElementById('m-meta').textContent = meta + ' · ' + prize;
+      document.getElementById('m-cat').textContent = meta.split('·')[0].trim();
+      document.getElementById('m-body').textContent = body;
+      const ul = document.getElementById('m-rules'); ul.innerHTML = '';
+      rulesStr.split(',').forEach(r => { const li = document.createElement('li'); li.textContent = r.trim(); ul.appendChild(li); });
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    function submitForm() {
+      const name = document.getElementById('cf-name').value.trim();
+      const email = document.getElementById('cf-email').value.trim();
+      const msg = document.getElementById('cf-msg').value.trim();
+      if (!name || !email || !msg) { alert('Please fill in all required fields.'); return; }
+      document.getElementById('form-success').style.display = 'block';
+      ['cf-name', 'cf-email', 'cf-subject', 'cf-msg'].forEach(id => document.getElementById(id).value = '');
+      setTimeout(() => document.getElementById('form-success').style.display = 'none', 4000);
+    }
+
+
+
+    /* ════════════════════════════════════════
+       3D PIANO
+    ════════════════════════════════════════ */
+    (function () {
+      const canvas = document.getElementById('pianoCanvas');
+      if (!canvas) return;
+      const ctx2 = canvas.getContext('2d');
+      const container = document.getElementById('piano-container');
+      const glow2 = document.getElementById('piano-cursor-glow');
+      const noteLabel = document.getElementById('note-label');
+      let PW, PH, pianoKeys = [], activeKeys = {}, pParticles = [], pRipples = [];
+      const WHITE_NOTES = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+      const BLACK_PATTERN = [1, 1, 0, 1, 1, 1, 0];
+      const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+      const OCTAVE = 4, NUM_OCT = 2, TOTAL_WHITE = WHITE_NOTES.length * NUM_OCT + 1;
+      const audioCtx2 = new (window.AudioContext || window.webkitAudioContext)();
+
+      function noteToFreq(note, oct) {
+        const s = { C: 0, 'C#': 1, D: 2, 'D#': 3, E: 4, F: 5, 'F#': 6, G: 7, 'G#': 8, A: 9, 'A#': 10, B: 11 };
+        return 440 * Math.pow(2, (oct - 4) + (s[note] - 9) / 12);
+      }
+      function playNote(freq, isBlack) {
+        audioCtx2.resume();
+        const osc = audioCtx2.createOscillator(), gain = audioCtx2.createGain(), filter = audioCtx2.createBiquadFilter();
+        osc.type = 'triangle'; osc.frequency.setValueAtTime(freq, audioCtx2.currentTime);
+        filter.type = 'lowpass'; filter.frequency.setValueAtTime(isBlack ? 1800 : 2400, audioCtx2.currentTime);
+        gain.gain.setValueAtTime(0, audioCtx2.currentTime);
+        gain.gain.linearRampToValueAtTime(0.32, audioCtx2.currentTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx2.currentTime + 1.4);
+        osc.connect(filter); filter.connect(gain); gain.connect(audioCtx2.destination);
+        osc.start(); osc.stop(audioCtx2.currentTime + 1.5);
+      }
+      function buildKeys() {
+        pianoKeys = [];
+        const ww = PW / TOTAL_WHITE, wh = PH * 0.70, bw = ww * 0.58, bh = wh * 0.60;
+        const semis = [1, 3, 6, 8, 10];
+        let wi = 0, bsi = 0;
+        for (let o = 0; o < NUM_OCT; o++) {
+          for (let i = 0; i < 7; i++) {
+            const x = wi * ww;
+            pianoKeys.push({ x, y: PH * 0.16, w: ww - 1.5, h: wh, note: WHITE_NOTES[i], octave: OCTAVE + o, isBlack: false, id: WHITE_NOTES[i] + (OCTAVE + o) });
+            if (BLACK_PATTERN[i]) {
+              const bn = NOTE_NAMES[semis[bsi % semis.length]];
+              pianoKeys.push({ x: x + ww - bw / 2, y: PH * 0.16, w: bw, h: bh, note: bn, octave: OCTAVE + o, isBlack: true, id: bn + (OCTAVE + o) });
+              bsi++;
+            }
+            wi++;
+          }
+        }
+        pianoKeys.push({ x: wi * ww, y: PH * 0.16, w: ww - 1.5, h: wh, note: 'C', octave: OCTAVE + NUM_OCT, isBlack: false, id: 'C' + (OCTAVE + NUM_OCT) });
+      }
+      function spawnP(x, y, col) { for (let i = 0; i < 16; i++) { const a = Math.random() * Math.PI * 2, sp = 1.5 + Math.random() * 3.5; pParticles.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 2.5, life: 1, decay: .022 + Math.random() * .02, r: 2 + Math.random() * 3, col }); } }
+      function spawnR(x, y, col) { pRipples.push({ x, y, r: 0, life: 1, col }); }
+
+      function drawKey3D(k, hover, active) {
+        const { x, y, w, h, isBlack } = k;
+        const depth = isBlack ? 5 : 9;
+        ctx2.save();
+        /* side face */
+        ctx2.beginPath();
+        ctx2.moveTo(x + w, y); ctx2.lineTo(x + w + depth * .45, y + depth * .45);
+        ctx2.lineTo(x + w + depth * .45, y + h + depth * .45); ctx2.lineTo(x + w, y + h); ctx2.closePath();
+        ctx2.fillStyle = active ? 'rgba(90,35,165,0.85)' : isBlack ? 'rgba(8,4,20,0.9)' : 'rgba(22,15,50,0.65)'; ctx2.fill();
+        /* bottom face */
+        ctx2.beginPath();
+        ctx2.moveTo(x, y + h); ctx2.lineTo(x + depth * .45, y + h + depth * .45);
+        ctx2.lineTo(x + w + depth * .45, y + h + depth * .45); ctx2.lineTo(x + w, y + h); ctx2.closePath();
+        ctx2.fillStyle = active ? 'rgba(70,25,140,0.75)' : isBlack ? 'rgba(6,3,15,0.9)' : 'rgba(15,10,35,0.75)'; ctx2.fill();
+        /* top face */
+        const r = isBlack ? 3 : 5;
+        ctx2.beginPath(); ctx2.roundRect(x, y, w, h, [0, 0, r, r]);
+        ctx2.fillStyle = active ? (isBlack ? '#8b45d4' : '#6535b8') : hover ? (isBlack ? '#280e58' : '#1a1240') : (isBlack ? '#000000' : '#D5FFFF');
+        ctx2.fill();
+        if (hover || active) {
+          const g = ctx2.createLinearGradient(x, y, x, y + h);
+          if (active) { g.addColorStop(0, 'rgba(210,145,255,0.55)'); g.addColorStop(1, 'rgba(110,55,205,0.07)'); }
+          else { g.addColorStop(0, 'rgba(165,115,245,0.28)'); g.addColorStop(1, 'rgba(65,35,135,0.04)'); }
+          ctx2.beginPath(); ctx2.roundRect(x, y, w, h, [0, 0, r, r]); ctx2.fillStyle = g; ctx2.fill();
+        }
+        if (active) {
+          ctx2.shadowColor = 'rgba(210,140,255,0.95)'; ctx2.shadowBlur = isBlack ? 20 : 32;
+          ctx2.beginPath(); ctx2.roundRect(x, y, w, h, [0, 0, r, r]); ctx2.fillStyle = 'rgba(210,140,255,0.06)'; ctx2.fill(); ctx2.shadowBlur = 0;
+        }
+        if (!isBlack) {
+          ctx2.beginPath(); ctx2.roundRect(x, y, w, h, [0, 0, r, r]);
+          ctx2.strokeStyle = active ? 'rgba(190,120,255,0.55)' : 'rgba(90,65,170,0.18)'; ctx2.lineWidth = .7; ctx2.stroke();
+          /* reflection */
+          ctx2.beginPath(); ctx2.moveTo(x + 4, y + 3); ctx2.lineTo(x + w - 4, y + 3);
+          ctx2.strokeStyle = 'rgba(255,255,255,0.035)'; ctx2.lineWidth = 1; ctx2.stroke();
+        }
+        ctx2.restore();
+      }
+
+      let pmx = -100, pmy = -100, lastHov = null;
+      function drawPiano() {
+        ctx2.clearRect(0, 0, PW, PH);
+        ctx2.fillStyle = '#090012'; ctx2.fillRect(0, 0, PW, PH);
+        const tg = ctx2.createLinearGradient(0, 0, PW, 0);
+        tg.addColorStop(0, 'rgba(60,15,130,0)'); tg.addColorStop(.5, 'rgba(140,60,240,0.1)'); tg.addColorStop(1, 'rgba(60,15,130,0)');
+        ctx2.fillStyle = tg; ctx2.fillRect(0, 0, PW, PH * 0.16);
+        [[.2, .08, 50, 'rgba(110,45,210,0.06)'], [.5, .1, 65, 'rgba(150,75,250,0.05)'], [.8, .09, 42, 'rgba(90,35,190,0.06)']].forEach(([cx, cy, r, c]) => { ctx2.beginPath(); ctx2.arc(PW * cx, PH * cy, r, 0, Math.PI * 2); ctx2.fillStyle = c; ctx2.fill(); });
+        if (pmx > 0) { const mg = ctx2.createRadialGradient(pmx, pmy, 0, pmx, pmy, 90); mg.addColorStop(0, 'rgba(200,150,255,0.07)'); mg.addColorStop(1, 'transparent'); ctx2.fillStyle = mg; ctx2.fillRect(0, 0, PW, PH); }
+        pRipples = pRipples.filter(r => r.life > 0);
+        pRipples.forEach(rp => { ctx2.beginPath(); ctx2.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2); ctx2.strokeStyle = `rgba(200,140,255,${rp.life * .5})`; ctx2.lineWidth = 1.5; ctx2.stroke(); rp.r += 3; rp.life -= .025; });
+        pianoKeys.filter(k => !k.isBlack).forEach(k => drawKey3D(k, pmx >= k.x && pmx <= k.x + k.w && pmy >= k.y && pmy <= k.y + k.h, !!activeKeys[k.id]));
+        pianoKeys.filter(k => k.isBlack).forEach(k => drawKey3D(k, pmx >= k.x && pmx <= k.x + k.w && pmy >= k.y && pmy <= k.y + k.h, !!activeKeys[k.id]));
+        pParticles = pParticles.filter(p => p.life > 0);
+        pParticles.forEach(p => { ctx2.beginPath(); ctx2.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2); ctx2.fillStyle = p.col.replace(',1)', `,${p.life})`); ctx2.fill(); p.x += p.vx; p.y += p.vy; p.vy += .09; p.life -= p.decay; });
+      }
+      function pianoLoop() {
+        drawPiano();
+        let found = null;
+        for (const k of pianoKeys.filter(k => k.isBlack)) if (pmx >= k.x && pmx <= k.x + k.w && pmy >= k.y && pmy <= k.y + k.h) { found = k; break; }
+        if (!found) for (const k of pianoKeys.filter(k => !k.isBlack)) if (pmx >= k.x && pmx <= k.x + k.w && pmy >= k.y && pmy <= k.y + k.h) { found = k; break; }
+        if (found && found !== lastHov) { noteLabel.textContent = found.note + found.octave; noteLabel.style.opacity = '1'; lastHov = found; }
+        else if (!found) { noteLabel.textContent = 'hover over the keys'; noteLabel.style.opacity = '.4'; lastHov = null; }
+        requestAnimationFrame(pianoLoop);
+      }
+      function resizePiano() { const rect = container.getBoundingClientRect(); PW = canvas.width = rect.width || 800; PH = canvas.height = rect.height || 420; buildKeys(); }
+      container.addEventListener('mousemove', e => { const rect = container.getBoundingClientRect(); pmx = e.clientX - rect.left; pmy = e.clientY - rect.top; glow2.style.left = pmx + 'px'; glow2.style.top = pmy + 'px'; });
+      container.addEventListener('mouseleave', () => { pmx = -100; pmy = -100; glow2.style.left = '-100px'; });
+      container.addEventListener('click', e => {
+        const rect = container.getBoundingClientRect();
+        const cx = e.clientX - rect.left, cy = e.clientY - rect.top;
+        let hit = null;
+        for (const k of pianoKeys.filter(k => k.isBlack)) if (cx >= k.x && cx <= k.x + k.w && cy >= k.y && cy <= k.y + k.h) { hit = k; break; }
+        if (!hit) for (const k of pianoKeys.filter(k => !k.isBlack)) if (cx >= k.x && cx <= k.x + k.w && cy >= k.y && cy <= k.y + k.h) { hit = k; break; }
+        if (hit) {
+          playNote(noteToFreq(hit.note, hit.octave), hit.isBlack);
+          activeKeys[hit.id] = true;
+          const col = hit.isBlack ? 'rgba(200,140,255,1)' : 'rgba(160,100,255,1)';
+          spawnP(cx, cy, col); spawnR(cx, cy, col);
+          setTimeout(() => delete activeKeys[hit.id], 350);
+        }
+      });
+      window.addEventListener('resize', resizePiano);
+      setTimeout(() => { resizePiano(); pianoLoop(); }, 150);
+    })();
+
+    // svg path scroll progress animation
+    const path = document.getElementById("journey-path");
+
+    const length = path.getTotalLength();
+
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+
+    window.addEventListener("scroll", () => {
+      const maxScroll =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+
+      const progress = window.scrollY / maxScroll;
+
+      path.style.strokeDashoffset =
+        length - (length * progress);
+    });
+
+    /* ════════════════════════════════════════
+       SCRIBBLE PAD
+    ════════════════════════════════════════ */
+    (function () {
+      const canvas = document.getElementById('scribbleCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const wrap = document.getElementById('scribble-wrap');
+      const cur = document.getElementById('scribble-cursor');
+      const hint = document.getElementById('scribble-hint-text');
+
+      let W, H;
+      let drawing = false;
+      let tool = 'pen';
+      let color = '#c89dff';
+      let size = 4;
+      let opacity = 1;
+      let lastX = 0, lastY = 0;
+      let history = [];   // undo stack (ImageData snapshots)
+      let didDraw = false;
+
+      /* ── resize ── */
+      function resize() {
+        const rect = wrap.getBoundingClientRect();
+        W = canvas.width = rect.width || 900;
+        H = canvas.height = rect.height || 480;
+        // redraw bg gradient
+        drawBg();
+        // restore last snapshot if exists
+        if (history.length) ctx.putImageData(history[history.length - 1], 0, 0);
+      }
+
+      function drawBg() {
+        /* deep space feel matching the site */
+        ctx.fillStyle = '#080010';
+        ctx.fillRect(0, 0, W, H);
+        /* subtle grid */
+        ctx.strokeStyle = 'rgba(200,157,255,0.04)';
+        ctx.lineWidth = .5;
+        const step = 40;
+        for (let x = 0; x < W; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+        for (let y = 0; y < H; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+        /* corner watermark */
+        ctx.font = '500 11px DM Sans, sans-serif';
+        ctx.fillStyle = 'rgba(200,157,255,0.06)';
+        ctx.letterSpacing = '0.2em';
+        ctx.fillText('SAAZ 2025', 18, H - 16);
+      }
+
+      /* ── save snapshot to history ── */
+      function snapshot() {
+        if (history.length >= 30) history.shift();
+        history.push(ctx.getImageData(0, 0, W, H));
+      }
+
+      /* ── draw stroke ── */
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = W / rect.width;
+        const scaleY = H / rect.height;
+        if (e.touches) {
+          return {
+            x: (e.touches[0].clientX - rect.left) * scaleX,
+            y: (e.touches[0].clientY - rect.top) * scaleY
+          };
+        }
+        return { x: (e.clientX - rect.left) * scaleX, y: (e.clientY - rect.top) * scaleY };
+      }
+
+      function hexToRgb(hex) {
+        const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+        return { r, g, b };
+      }
+
+      function startDraw(e) {
+        e.preventDefault();
+        drawing = true;
+        snapshot();
+        const { x, y } = getPos(e);
+        lastX = x; lastY = y;
+        if (tool === 'spray') drawSpray(x, y);
+      }
+
+      function doDraw(e) {
+        e.preventDefault();
+        const { x, y } = getPos(e);
+
+        /* move custom cursor */
+        const rect = wrap.getBoundingClientRect();
+        const cx2 = e.clientX || e.touches?.[0]?.clientX || 0;
+        const cy2 = e.clientY || e.touches?.[0]?.clientY || 0;
+        cur.style.left = (cx2 - rect.left) + 'px';
+        cur.style.top = (cy2 - rect.top) + 'px';
+        const displaySize = Math.max(size, 4);
+        cur.style.width = displaySize * 2 + 'px';
+        cur.style.height = displaySize * 2 + 'px';
+        if (tool === 'eraser') {
+          cur.style.borderColor = 'rgba(255,255,255,0.4)';
+        } else {
+          cur.style.borderColor = color + 'cc';
+        }
+
+        if (!drawing) return;
+        if (!didDraw) { didDraw = true; hint.style.opacity = '0'; }
+
+        ctx.save();
+        ctx.globalAlpha = opacity;
+
+        if (tool === 'eraser') {
+          ctx.globalCompositeOperation = 'destination-out';
+          ctx.lineWidth = size * 2.5;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(x, y);
+          ctx.strokeStyle = 'rgba(0,0,0,1)';
+          ctx.stroke();
+        } else if (tool === 'pen') {
+          ctx.globalCompositeOperation = 'source-over';
+          ctx.strokeStyle = color;
+          ctx.lineWidth = size;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        } else if (tool === 'brush') {
+          ctx.globalCompositeOperation = 'source-over';
+          /* soft brush — multiple semi-transparent circles along path */
+          const dist = Math.hypot(x - lastX, y - lastY);
+          const steps = Math.max(1, Math.floor(dist / 2));
+          for (let i = 0; i <= steps; i++) {
+            const bx = lastX + (x - lastX) * (i / steps);
+            const by = lastY + (y - lastY) * (i / steps);
+            const g = ctx.createRadialGradient(bx, by, 0, bx, by, size * 2.2);
+            const { r, g: g2, b } = hexToRgb(color);
+            g.addColorStop(0, `rgba(${r},${g2},${b},0.18)`);
+            g.addColorStop(0.4, `rgba(${r},${g2},${b},0.07)`);
+            g.addColorStop(1, `rgba(${r},${g2},${b},0)`);
+            ctx.fillStyle = g;
+            ctx.beginPath();
+            ctx.arc(bx, by, size * 2.2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } else if (tool === 'spray') {
+          drawSpray(x, y);
+        }
+
+        ctx.restore();
+        lastX = x; lastY = y;
+      }
+
+      function drawSpray(x, y) {
+        ctx.save();
+        ctx.globalAlpha = opacity * 0.07;
+        ctx.globalCompositeOperation = 'source-over';
+        const { r, g, b } = hexToRgb(color);
+        const density = size * 4;
+        const radius = size * 3;
+        for (let i = 0; i < density; i++) {
+          const a = Math.random() * Math.PI * 2;
+          const rr = Math.random() * radius;
+          ctx.fillStyle = `rgb(${r},${g},${b})`;
+          ctx.beginPath();
+          ctx.arc(x + Math.cos(a) * rr, y + Math.sin(a) * rr, Math.random() * 1.2 + .3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      function stopDraw() { drawing = false; }
+
+      /* ── events ── */
+      canvas.addEventListener('mousedown', startDraw);
+      canvas.addEventListener('mousemove', doDraw);
+      canvas.addEventListener('mouseup', stopDraw);
+      canvas.addEventListener('mouseleave', stopDraw);
+      canvas.addEventListener('touchstart', startDraw, { passive: false });
+      canvas.addEventListener('touchmove', doDraw, { passive: false });
+      canvas.addEventListener('touchend', stopDraw);
+
+      wrap.addEventListener('mouseenter', () => { cur.style.opacity = '1'; });
+      wrap.addEventListener('mouseleave', () => { cur.style.opacity = '0'; });
+
+      /* move cursor even when not drawing */
+      wrap.addEventListener('mousemove', e => {
+        const rect = wrap.getBoundingClientRect();
+        cur.style.left = (e.clientX - rect.left) + 'px';
+        cur.style.top = (e.clientY - rect.top) + 'px';
+        const ds = Math.max(size, 4);
+        cur.style.width = ds * 2 + 'px'; cur.style.height = ds * 2 + 'px';
+        cur.style.borderColor = tool === 'eraser' ? 'rgba(255,255,255,0.4)' : color + 'cc';
+      });
+
+      /* ── color buttons ── */
+      document.querySelectorAll('.sb-color[data-color]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.sb-color').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          color = btn.dataset.color;
+          if (tool === 'eraser') tool = 'pen';
+          document.querySelectorAll('.sb-tool').forEach(b => b.classList.remove('active'));
+          document.querySelector('.sb-tool[data-tool="pen"]').classList.add('active');
+        });
+      });
+
+      /* custom color picker */
+      const pickerInput = document.getElementById('sb-custom-color');
+      document.getElementById('sb-picker-trigger').addEventListener('click', () => pickerInput.click());
+      pickerInput.addEventListener('input', e => {
+        color = e.target.value;
+        document.querySelectorAll('.sb-color').forEach(b => b.classList.remove('active'));
+        document.getElementById('sb-picker-trigger').classList.add('active');
+        document.getElementById('sb-picker-trigger').style.background = color;
+      });
+
+      /* ── tool buttons ── */
+      document.querySelectorAll('.sb-tool').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.sb-tool').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          tool = btn.dataset.tool;
+        });
+      });
+
+      /* ── size slider ── */
+      const sizeSlider = document.getElementById('sb-size');
+      const sizeVal = document.getElementById('sb-size-val');
+      sizeSlider.addEventListener('input', () => {
+        size = parseInt(sizeSlider.value);
+        sizeVal.textContent = size;
+      });
+
+      /* ── opacity slider ── */
+      const opacitySlider = document.getElementById('sb-opacity');
+      const opacityVal = document.getElementById('sb-opacity-val');
+      opacitySlider.addEventListener('input', () => {
+        opacity = parseInt(opacitySlider.value) / 100;
+        opacityVal.textContent = opacitySlider.value;
+      });
+
+      /* ── undo ── */
+      document.getElementById('sb-undo').addEventListener('click', () => {
+        if (history.length > 1) {
+          history.pop();
+          ctx.putImageData(history[history.length - 1], 0, 0);
+        } else if (history.length === 1) {
+          history.pop();
+          drawBg();
+        }
+      });
+
+      /* ── clear ── */
+      document.getElementById('sb-clear').addEventListener('click', () => {
+        history = [];
+        drawBg();
+        hint.style.opacity = '1';
+        didDraw = false;
+      });
+
+      /* ── save ── */
+      document.getElementById('sb-save').addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = 'saaz-scribble.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+
+      /* ── keyboard shortcuts ── */
+      document.addEventListener('keydown', e => {
+        if (document.activeElement.tagName === 'INPUT') return;
+        if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+          document.getElementById('sb-undo').click(); e.preventDefault();
+        }
+      });
+
+      /* ── init ── */
+      window.addEventListener('resize', resize);
+      setTimeout(() => { resize(); snapshot(); }, 200);
+    })();
+  </script>
+
+  <script>
+    /* ── THEME TOGGLE ── */
+    (function () {
+      const btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      const saved = localStorage.getItem('saaz-theme');
+      if (saved === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        btn.textContent = '☀️';
+      }
+      btn.addEventListener('click', () => {
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        if (isLight) {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('saaz-theme', 'dark');
+          btn.textContent = '🌙';
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+          localStorage.setItem('saaz-theme', 'light');
+          btn.textContent = '☀️';
+        }
+      });
+      const notes = ['♪', '♫', '♬', '♩'];
+
+      let lastNote = 0;
+
+      window.addEventListener('mousemove', e => {
+        const now = Date.now();
+
+        if (now - lastNote < 40) return;
+        lastNote = now;
+
+        const note = document.createElement('div');
+        note.className = 'music-note';
+
+        note.textContent =
+          notes[Math.floor(Math.random() * notes.length)];
+
+        note.style.left = e.clientX + 'px';
+        note.style.top = e.clientY + 'px';
+
+        note.style.fontSize =
+          (12 + Math.random() * 10) + 'px';
+
+        note.style.transform +=
+          ` rotate(${Math.random() * 40 - 20}deg)`;
+
+        document.body.appendChild(note);
+
+        setTimeout(() => note.remove(), 1200);
+      });
+      const spotlight = document.getElementById('spotlight');
+
+      window.addEventListener('mousemove', e => {
+        spotlight.style.left = e.clientX + 'px';
+        spotlight.style.top = e.clientY + 'px';
+      });
+      const interactive = document.querySelectorAll(
+        'a,button,.event-card,.drum-pad,.tabla,.string'
+      );
+
+      interactive.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          spotlight.style.width = '600px';
+          spotlight.style.height = '600px';
+        });
+
+        el.addEventListener('mouseleave', () => {
+          spotlight.style.width = '400px';
+          spotlight.style.height = '400px';
+        });
+      });
+      const galaxy = document.getElementById('galaxy-layer');
+
+      window.addEventListener('mousemove', e => {
+
+        const x = e.clientX;
+        const y = e.clientY;
+
+        const mask =
+          `radial-gradient(
+      circle 100px at ${x}px ${y}px,
+      white 0%,
+      transparent 100%
+    )`;
+
+        galaxy.style.maskImage = mask;
+        galaxy.style.webkitMaskImage = mask;
+      });
+    })();
+  </script>
+</body>
+
+</html>
