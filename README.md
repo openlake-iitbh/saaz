@@ -1,5 +1,7 @@
 🎵 SAAZ 2026 — IIT Bhilai Cultural Festival Website
 
+live website link :- https://saaz-iitbh.vercel.app/
+
 A modern, immersive festival website built entirely using HTML, CSS, and JavaScript, featuring interactive musical experiences, custom animations, 3D visuals, and creative tools.
 
 Originally developed under a static-hosting constraint where the deployment environment was expected to host on college domain which support only traditional HTML/CSS/JavaScript websites. The goal was to push the limits of what could be achieved without React, Next.js, or any frontend framework while maintaining high performance and compatibility.
